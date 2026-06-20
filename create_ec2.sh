@@ -67,4 +67,26 @@ create_ec2_instance() {
         echo "Instance $instance_id create successfully."
 
         # wait for the instance to be in running state
-        wait_for_instance "$instance_id" 	
+        wait_for_instance "$instance_id"
+}
+
+main() {
+     check_awscli || install_awscli
+
+     echo "Creating EC2 instance..."
+
+    # specify the parameters for creating the EC2 instance
+    AMI_ID=""
+    INSTANCE_TYPE="t2.micro"   
+    KEY_NAME=""
+    SUBNET_ID=""
+    SECURITY_GROUP_IDS="" #Add your security group IDs separated by space
+    INSTANCE_NAME="Shell-Script-EC2_Demo"
+
+   #call the function to create the EC2 instance 
+   create_ec2_instance "$AMI_ID" "$INSTANCE_TYPE" "$KEY_NAME" "$SUBNET_ID" "$SECURITY_GROUP_IDS" "$INSTANCE_NAME"
+
+   echo "EC2 instance creation complete."
+ }
+
+main "$@"
