@@ -61,4 +61,10 @@ create_ec2_instance() {
 
 	if [[-z "$instance_id" ]]; then
 		echo "Failed to create EC2 instance." >&2
+                exit 1
+        fi
+     
+        echo "Instance $instance_id create successfully."
 
+        # wait for the instance to be in running state
+        wait_for_instance "$instance_id" 	
