@@ -4,7 +4,7 @@ set -euo pipefail
 check_awscli() {
 	if ! command -v aws &> /dev/null; then
 		echo "AWS CLI is not installed. please install it first." >&2
-		exit 1
+		
         fi
 }
 
@@ -30,7 +30,7 @@ wait_for_instance() {
 	echo "waiting for instance $instance_id to be in running state..."
 
 	while true; do 
-		state=$(aws ec2 describe-instances --instance-ids "$instance_id" --query 'reservations[0].Instances[0].State.Name' --output text)
+		state=$(aws ec2 describe-instances --instance-ids "$instance_id" --query 'Reservations[0].Instances[0].State.Name' --output text)
 		if [[ "$state" == "running" ]]; then
 			echo "Instance $instance_id is now running."
 			break
@@ -48,7 +48,7 @@ create_ec2_instance() {
 	local instance_name="$6"
 
 	#run AWS CLI command to create EC2 instance
-	instance_id=$(aws ec2 run-instance \
+	instance_id=$(aws ec2 run-instances \
 		--image-id "$ami_id" \
 		--instance-type "$instance_type" \
 		--key-name "$key_name" \
@@ -59,7 +59,7 @@ create_ec2_instance() {
 		--output text
 	)
 
-	if [[-z "$instance_id" ]]; then
+	if [[ -z "$instance_id" ]]; then
 		echo "Failed to create EC2 instance." >&2
                 exit 1
         fi
