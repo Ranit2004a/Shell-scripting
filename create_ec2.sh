@@ -86,7 +86,8 @@ main() {
    #call the function to create the EC2 instance 
    create_ec2_instance "$AMI_ID" "$INSTANCE_TYPE" "$KEY_NAME" "$SUBNET_ID" "$SECURITY_GROUP_IDS" "$INSTANCE_NAME"
 
-   echo "EC2 instance creation complete."
- }
+   echo "EC2 instance creation completed."
+
+}
 
 main "$@"
